@@ -62,7 +62,7 @@ export default function MainGrid({ selectedMenuItem }: MainGridProps) {
           }}
         >
           <Typography component="h2" variant="h4" sx={{ my: 4 }}>
-            👋 Welcome to the Return LPN!
+            👋 Welcome to the Bettabot Data Dashboard!
           </Typography>
         </Box>
       )}
