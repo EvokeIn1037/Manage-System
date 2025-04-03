@@ -70,7 +70,7 @@ export default function AppNavbar({ selectedMenuItem, setSelectedMenuItem }: App
           >
             <CustomIcon />
             <Typography variant="h4" component="h1" sx={{ color: 'text.primary' }}>
-              Return LPN
+              Betta Repair Customers
             </Typography>
           </Stack>
           <ColorModeIconDropdown />
