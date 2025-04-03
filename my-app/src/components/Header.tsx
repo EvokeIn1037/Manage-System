@@ -28,7 +28,9 @@ export default function Header({ selectedMenuItem }: HeaderProps) {
     >
       <NavbarBreadcrumbs selectedMenuItem={selectedMenuItem} />
       <Stack direction="row" sx={{ gap: 1 }}>
-        <Search />
+        {selectedMenuItem === "Analytics" && (
+          <Search />
+        )}
         <CustomDatePicker />
         {/* <MenuButton showBadge aria-label="Open notifications">
           <NotificationsRoundedIcon />
