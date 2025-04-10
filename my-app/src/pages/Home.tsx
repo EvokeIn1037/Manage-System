@@ -26,14 +26,16 @@ const xThemeComponents = {
   ...treeViewCustomizations,
 };
 
-export default function Dashboard(props: { disableCustomTheme?: boolean; user?: string; icon?: string; name?: string }) {
+export default function Dashboard(props: { disableCustomTheme?: boolean; user?: string; icon?: string; name?: string; admin?: boolean; }) {
   const [selectedMenuItem, setSelectedMenuItem] = React.useState("Home");
   let userstr = "";
   let iconstr = "";
   let namestr = "";
+  let isAdmin = false;
   if (props.user) userstr = props.user;
   if (props.icon) iconstr = props.icon;
   if (props.name) namestr = props.name;
+  if (props.admin) isAdmin = props.admin;
   
   return (
     <AppTheme {...props} themeComponents={xThemeComponents}>
@@ -62,7 +64,7 @@ export default function Dashboard(props: { disableCustomTheme?: boolean; user?: 
             }}
           >
             <Header selectedMenuItem={selectedMenuItem} />
-            <MainGrid selectedMenuItem={selectedMenuItem} />
+            <MainGrid selectedMenuItem={selectedMenuItem} admin={isAdmin} />
           </Stack>
         </Box>
       </Box>

@@ -13,6 +13,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ children, apiurl }) => {
   const [userstr, setUserstr] = React.useState("");
   const [iconstr, setIconstr] = React.useState("");
   const [namestr, setNamestr] = React.useState("");
+  const [isAdmin, setAdmin] = React.useState(false);
 
   React.useEffect(() => {
     const checkAuth = async () => {
@@ -38,6 +39,25 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ children, apiurl }) => {
       }
     };
 
+    const checkAdmin = async () => {
+      try {
+        const res = await fetch(apiurl + "/admin", {
+          credentials: "include", // sends HttpOnly cookie
+        });
+
+        const data = await res.json();
+        if (res.ok && data.admin) {
+          setAdmin(true);
+        } else {
+          setAdmin(false);
+        }
+      } catch (error) {
+        console.error("Admin check failed", error);
+        setAdmin(false);
+      }
+    };
+
+    checkAdmin();
     checkAuth();
   }, []);
 
@@ -49,7 +69,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ children, apiurl }) => {
     return <Navigate to="/signin" replace />;
   }
 
-  return React.cloneElement(children, { user: userstr, icon: iconstr, name: namestr });
+  return React.cloneElement(children, { user: userstr, icon: iconstr, name: namestr, admin: isAdmin });
 };
 
 export default PrivateRoute;

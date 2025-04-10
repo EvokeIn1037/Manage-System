@@ -13,6 +13,7 @@ import StatCard, { StatCardProps } from './StatCard';
 
 interface MainGridProps {
   selectedMenuItem: string;
+  admin: boolean;
 }
 
 const data: StatCardProps[] = [
@@ -48,7 +49,7 @@ const data: StatCardProps[] = [
   },
 ];
 
-export default function MainGrid({ selectedMenuItem }: MainGridProps) {
+export default function MainGrid({ selectedMenuItem, admin }: MainGridProps) {
   return (
     <Box sx={{ width: '100%', maxWidth: { sm: '100%', md: '1980px' } }}>
       {selectedMenuItem === "Home" && (
@@ -126,7 +127,11 @@ export default function MainGrid({ selectedMenuItem }: MainGridProps) {
             justifyContent: "center",
             height: "50vh",  // Adjusts to center in viewport
           }}
-        ></Box>
+        >
+        <Typography component="h2" variant="h4" sx={{ my: 4 }}>
+        👋 Welcome to the task section{admin ? ", administrator" : ""}!
+        </Typography>
+      </Box>
       )}
       <Copyright sx={{ my: 4 }} />
     </Box>

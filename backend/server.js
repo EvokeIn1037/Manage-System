@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import authRoutes from './routes/authRoutes.js';
 import dotenv from 'dotenv';
 import authMiddleware from './middleware/authMiddleware.js'
+import adminMiddleware from './middleware/adminMiddleware.js';
 
 dotenv.config();
 
@@ -22,6 +23,10 @@ app.use('/api/auth', authRoutes);
 
 app.get("/api/me", (req, res) => {
   authMiddleware(req, res);
+});
+
+app.get("/api/admin", (req, res) => {
+  adminMiddleware(req, res);
 });
 
 const PORT = process.env.PORT || 9067;
