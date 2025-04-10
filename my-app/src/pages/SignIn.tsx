@@ -18,7 +18,8 @@ import AppTheme from '../theme/AppTheme';
 import ColorModeSelect from '../theme/ColorModeSelect';
 import { GoogleIcon, FacebookIcon, SitemarkIcon } from '../components/CustomIcons';
 
-const APIURL = "http://localhost:9067/api";
+// const APIURL = "http://localhost:9067/api";
+const APIURL = "http://192.168.0.43:9067/api"; // test on Linux
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
