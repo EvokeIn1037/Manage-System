@@ -26,9 +26,12 @@ const Drawer = styled(MuiDrawer)({
 interface SideMenuProps {
   selectedMenuItem: string;
   setSelectedMenuItem: (item: string) => void;
+  user: string;
+  icon: string;
+  name: string;
 }
 
-export default function SideMenu({ selectedMenuItem, setSelectedMenuItem }: SideMenuProps) {
+export default function SideMenu({ selectedMenuItem, setSelectedMenuItem, user, icon, name }: SideMenuProps) {
   return (
     <Drawer
       variant="permanent"
@@ -77,10 +80,10 @@ export default function SideMenu({ selectedMenuItem, setSelectedMenuItem }: Side
         />
         <Box sx={{ mr: 'auto' }}>
           <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: '16px' }}>
-            User
+            { name }
           </Typography>
           <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-            user@email.com
+            { user }
           </Typography>
         </Box>
         <OptionsMenu />

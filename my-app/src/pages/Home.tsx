@@ -26,15 +26,21 @@ const xThemeComponents = {
   ...treeViewCustomizations,
 };
 
-export default function Dashboard(props: { disableCustomTheme?: boolean }) {
+export default function Dashboard(props: { disableCustomTheme?: boolean; user?: string; icon?: string; name?: string }) {
   const [selectedMenuItem, setSelectedMenuItem] = React.useState("Home");
+  let userstr = "";
+  let iconstr = "";
+  let namestr = "";
+  if (props.user) userstr = props.user;
+  if (props.icon) iconstr = props.icon;
+  if (props.name) namestr = props.name;
   
   return (
     <AppTheme {...props} themeComponents={xThemeComponents}>
       <CssBaseline enableColorScheme />
       <Box sx={{ display: 'flex' }}>
-        <SideMenu selectedMenuItem={selectedMenuItem} setSelectedMenuItem={setSelectedMenuItem} />
-        <AppNavbar selectedMenuItem={selectedMenuItem} setSelectedMenuItem={setSelectedMenuItem} />
+        <SideMenu selectedMenuItem={selectedMenuItem} setSelectedMenuItem={setSelectedMenuItem} user={userstr} icon={iconstr} name={namestr} />
+        <AppNavbar selectedMenuItem={selectedMenuItem} setSelectedMenuItem={setSelectedMenuItem} name={namestr} />
         {/* Main content */}
         <Box
           component="main"

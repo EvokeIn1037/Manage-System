@@ -17,6 +17,7 @@ import { styled } from '@mui/material/styles';
 import AppTheme from '../theme/AppTheme';
 import ColorModeSelect from '../theme/ColorModeSelect';
 import { GoogleIcon, FacebookIcon, SitemarkIcon } from '../components/CustomIcons';
+import { useNavigate } from 'react-router-dom';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -60,14 +61,22 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
   },
 }));
 
-export default function SignUp(props: { disableCustomTheme?: boolean }) {
+export default function SignUp(props: { disableCustomTheme?: boolean; apiurl?: string; }) {
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
+  const [nameError, setNameError] = React.useState(false);
+  const [nameErrorMessage, setNameErrorMessage] = React.useState('');
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
   const [rePasswordError, setRePasswordError] = React.useState(false);
   const [rePasswordErrorMessage, setRePasswordErrorMessage] = React.useState('');
   // const [open, setOpen] = React.useState(false);
+  const [rememberMe, setRememberMe] = React.useState(true);
+  const navigate = useNavigate();
+  
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRememberMe(event.target.checked);
+  };
 
   // const handleClickOpen = () => {
   //   setOpen(true);
@@ -77,26 +86,11 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
   //   setOpen(false);
   // };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    if (emailError || passwordError || rePasswordError) {
-      event.preventDefault();
-      return;
-    }
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-      rePassword: data.get('rePassword'),
-    });
-  };
-
   const validateInputs = () => {
     const email = document.getElementById('email') as HTMLInputElement;
+    const name = document.getElementById('name') as HTMLInputElement;
     const password = document.getElementById('password') as HTMLInputElement;
     const rePassword = document.getElementById('rePassword') as HTMLInputElement;
-
-    console.log(password);
-    console.log(rePassword);
 
     let isValid = true;
 
@@ -107,6 +101,16 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
     } else {
       setEmailError(false);
       setEmailErrorMessage('');
+    }
+
+    
+    if (!name.value || !(/^[A-Za-z0-9 ]+$/.test(name.value))) {
+      setNameError(true);
+      setNameErrorMessage('Please use letters, numbers and space only.');
+      isValid = false;
+    } else {
+      setNameError(false);
+      setNameErrorMessage('');
     }
 
     if (!password.value || password.value.length < 6) {
@@ -128,6 +132,39 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
     }
 
     return isValid;
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault(); // ✅ Prevent default browser behavior
+
+    const email = (document.getElementById('email') as HTMLInputElement).value;
+    const name = (document.getElementById('name') as HTMLInputElement).value;
+    const password = (document.getElementById('password') as HTMLInputElement).value;
+
+    let isValid = validateInputs();
+
+    if (isValid && props.apiurl) {
+      try {
+        const res = await fetch(props.apiurl + '/auth/signup', {
+          method: 'POST',
+          credentials: 'include', // 👈 IMPORTANT for sending/receiving cookies
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email, name, password, rememberMe }),
+        });
+
+        if (res.ok) {
+          navigate("/");
+          // Redirect or do something after login
+        } else {
+          setPasswordError(true);
+          setPasswordErrorMessage('Register failed! Please check your email or password.');
+        }
+      } catch (err) {
+        console.error('Error registering in:', err);
+      }
+    }
   };
 
   return (
@@ -173,6 +210,22 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
               />
             </FormControl>
             <FormControl>
+              <FormLabel htmlFor="name">Name</FormLabel>
+              <TextField
+                error={nameError}
+                helperText={nameErrorMessage}
+                id="name"
+                type="name"
+                name="name"
+                placeholder="Please use letters, numbers and space only"
+                autoComplete="name"
+                required
+                fullWidth
+                variant="outlined"
+                color={nameError ? 'error' : 'primary'}
+              />
+            </FormControl>
+            <FormControl>
               <FormLabel htmlFor="password">Password</FormLabel>
               <TextField
                 error={passwordError}
@@ -181,8 +234,6 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
                 placeholder="••••••"
                 type="password"
                 id="password"
-                autoComplete="current-password"
-                autoFocus
                 required
                 fullWidth
                 variant="outlined"
@@ -198,8 +249,6 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
                 placeholder="••••••"
                 type="password"
                 id="rePassword"
-                autoComplete="current-password"
-                autoFocus
                 required
                 fullWidth
                 variant="outlined"
@@ -207,7 +256,13 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
               />
             </FormControl>
             <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
+              control={
+              <Checkbox
+                checked={rememberMe}
+                onChange={handleCheckboxChange} 
+                value="remember" 
+                color="primary" />
+              }
               label="Stay signed in"
             />
             <Button

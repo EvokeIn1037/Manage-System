@@ -15,9 +15,10 @@ interface SideMenuMobileProps {
   toggleDrawer: (newOpen: boolean) => () => void;
   selectedMenuItem: string;
   setSelectedMenuItem: (item: string) => void;
+  name: string;
 }
 
-export default function SideMenuMobile({ open, toggleDrawer, selectedMenuItem, setSelectedMenuItem }: SideMenuMobileProps) {
+export default function SideMenuMobile({ open, toggleDrawer, selectedMenuItem, setSelectedMenuItem, name }: SideMenuMobileProps) {
   return (
     <Drawer
       anchor="right"
@@ -49,7 +50,7 @@ export default function SideMenuMobile({ open, toggleDrawer, selectedMenuItem, s
               sx={{ width: 24, height: 24 }}
             />
             <Typography component="p" variant="h6">
-              User
+              { name }
             </Typography>
           </Stack>
           {/* <MenuButton showBadge>

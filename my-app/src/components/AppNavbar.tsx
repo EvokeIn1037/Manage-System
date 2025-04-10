@@ -31,9 +31,10 @@ const Toolbar = styled(MuiToolbar)({
 interface AppNavbarProps {
   selectedMenuItem: string;
   setSelectedMenuItem: (item: string) => void;
+  name: string;
 }
 
-export default function AppNavbar({ selectedMenuItem, setSelectedMenuItem }: AppNavbarProps) {
+export default function AppNavbar({ selectedMenuItem, setSelectedMenuItem, name }: AppNavbarProps) {
   const [open, setOpen] = React.useState(false);
 
   const toggleDrawer = (newOpen: boolean) => () => {
@@ -77,7 +78,7 @@ export default function AppNavbar({ selectedMenuItem, setSelectedMenuItem }: App
           <MenuButton aria-label="menu" onClick={toggleDrawer(true)}>
             <MenuRoundedIcon />
           </MenuButton>
-          <SideMenuMobile open={open} toggleDrawer={toggleDrawer} selectedMenuItem={selectedMenuItem} setSelectedMenuItem={setSelectedMenuItem} />
+          <SideMenuMobile open={open} toggleDrawer={toggleDrawer} selectedMenuItem={selectedMenuItem} setSelectedMenuItem={setSelectedMenuItem} name={ name } />
         </Stack>
       </Toolbar>
     </AppBar>

@@ -17,9 +17,7 @@ import ForgotPassword from '../components/ForgotPassword';
 import AppTheme from '../theme/AppTheme';
 import ColorModeSelect from '../theme/ColorModeSelect';
 import { GoogleIcon, FacebookIcon, SitemarkIcon } from '../components/CustomIcons';
-
-// const APIURL = "http://localhost:9067/api";
-const APIURL = "http://192.168.0.43:9067/api"; // test on Linux
+import { useNavigate } from 'react-router-dom';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -63,13 +61,39 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
   },
 }));
 
-export default function SignIn(props: { disableCustomTheme?: boolean }) {
+export default function SignIn(props: { disableCustomTheme?: boolean; apiurl?: string; }) {
+  const [hasCookie, setHasCookie] = React.useState(false);
+  const [emailValue, setEmailValue] = React.useState("");
+  
+  React.useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        let apiurl = "";
+        if (props.apiurl) apiurl = props.apiurl;
+        const res = await fetch(apiurl + "/me", {
+          credentials: "include", // sends HttpOnly cookie
+        });
+
+        const data = await res.json();
+        if (res.ok && data.authenticated) {
+          setEmailValue(data.user || "");
+          setHasCookie(true);
+        }
+      } catch (error) {
+        console.error("Auth check failed", error);
+      }
+    };
+
+    checkAuth();
+  }, []);
+
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
   const [open, setOpen] = React.useState(false);
   const [rememberMe, setRememberMe] = React.useState(true);
+  const navigate = useNavigate();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -130,9 +154,9 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
 
     let isValid = validateInputs();
 
-    if (isValid) {
+    if (isValid && props.apiurl) {
       try {
-        const res = await fetch(APIURL + '/auth/signin', {
+        const res = await fetch(props.apiurl + '/auth/signin', {
           method: 'POST',
           credentials: 'include', // 👈 IMPORTANT for sending/receiving cookies
           headers: {
@@ -142,7 +166,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
         });
 
         if (res.ok) {
-          alert('Login successful!');
+          navigate("/");
           // Redirect or do something after login
         } else {
           setPasswordError(true);
@@ -194,6 +218,10 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
                 fullWidth
                 variant="outlined"
                 color={emailError ? 'error' : 'primary'}
+                value={emailValue}
+                onChange={(e) => {
+                  setEmailValue(e.target.value);
+                }}
               />
             </FormControl>
             <FormControl>
@@ -206,7 +234,6 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                autoFocus
                 required
                 fullWidth
                 variant="outlined"
