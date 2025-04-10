@@ -18,6 +18,8 @@ import AppTheme from '../theme/AppTheme';
 import ColorModeSelect from '../theme/ColorModeSelect';
 import { GoogleIcon, FacebookIcon, SitemarkIcon } from '../components/CustomIcons';
 
+const APIURL = "http://localhost:9067/api";
+
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
@@ -66,6 +68,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
   const [open, setOpen] = React.useState(false);
+  const [rememberMe, setRememberMe] = React.useState(true);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -75,17 +78,21 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
     setOpen(false);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    if (emailError || passwordError) {
-      event.preventDefault();
-      return;
-    }
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRememberMe(event.target.checked);
   };
+
+  // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  //   if (emailError || passwordError) {
+  //     event.preventDefault();
+  //     return;
+  //   }
+  //   const data = new FormData(event.currentTarget);
+  //   console.log({
+  //     email: data.get('email'),
+  //     password: data.get('password'),
+  //   });
+  // };
 
   const validateInputs = () => {
     const email = document.getElementById('email') as HTMLInputElement;
@@ -112,6 +119,38 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
     }
 
     return isValid;
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault(); // ✅ Prevent default browser behavior
+
+    const email = (document.getElementById('email') as HTMLInputElement).value;
+    const password = (document.getElementById('password') as HTMLInputElement).value;
+
+    let isValid = validateInputs();
+
+    if (isValid) {
+      try {
+        const res = await fetch(APIURL + '/auth/signin', {
+          method: 'POST',
+          credentials: 'include', // 👈 IMPORTANT for sending/receiving cookies
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email, password, rememberMe }),
+        });
+
+        if (res.ok) {
+          alert('Login successful!');
+          // Redirect or do something after login
+        } else {
+          setPasswordError(true);
+          setPasswordErrorMessage('Login failed! Please check your email or password.');
+        }
+      } catch (err) {
+        console.error('Error logging in:', err);
+      }
+    }
   };
 
   return (
@@ -174,7 +213,11 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
               />
             </FormControl>
             <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
+              control={<Checkbox
+               checked={rememberMe}
+               onChange={handleCheckboxChange}
+               value="remember"
+               color="primary" />}
               label="Remember me"
             />
             <ForgotPassword open={open} handleClose={handleClose} />
@@ -182,7 +225,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
               type="submit"
               fullWidth
               variant="contained"
-              onClick={validateInputs}
+              // onClick={clickHandleLogin}
             >
               Sign in
             </Button>
