@@ -23,8 +23,11 @@ export const signIn = async (req, res) => {
     res.cookie('token', token, {
       httpOnly: true,
       secure: false,     // 👈 must be false for local HTTP testing
+      // secure: true,              // only sent over HTTPS
       maxAge: rememberMe ? 30 * 24 * 60 * 60 * 1000 : 60 * 60 * 1000, // 30 days or 1 hour
       sameSite: 'lax', // helps with CSRF protection, adjust as needed
+      // domain: 'api.example.com', // only send to this host (or ‘.example.com’ for all subdomains)
+      path: '/auth',             // only send for URLs under /auth
     });
 
     res.status(200).json({ message: 'Logged in successfully' });
