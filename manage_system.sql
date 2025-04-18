@@ -41,7 +41,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'test@betta.com','$2b$10$SWp17LuiMCmVrgBcW2KDDehJL7ajCtZnm0LGasfVWt1vO2fsiXqNm','2025-04-10 15:50:43','http://192.168.0.43:9067/ico/test@betta.com/betta.ico','Test User',0),(5,'betabetaboat@hotmail.com','$2b$10$ZD/x1NhE0KctUJHdUwkmlOrDwpSkMpnyiRF6chpUAtK0nEm/V6mpe','2025-04-10 21:04:10','','Beta Boat',1),(7,'liyifan757@gmail.com','$2b$10$TTXsRvPe32zIPhTQrfJlpexEazU75xrvkvMOVoKoVau1zqSHkh7Hi','2025-04-10 22:16:33','','Yifan Li',0);
+INSERT INTO `users` VALUES (1,'test@betta.com','$2b$10$SWp17LuiMCmVrgBcW2KDDehJL7ajCtZnm0LGasfVWt1vO2fsiXqNm','2025-04-10 08:30:00','','Test User',0),(2,'betabetaboat@hotmail.com','$2b$10$ZD/x1NhE0KctUJHdUwkmlOrDwpSkMpnyiRF6chpUAtK0nEm/V6mpe','2025-04-10 21:04:10','','Beta Boat',1),(3,'liyifan757@gmail.com','$2b$10$TTXsRvPe32zIPhTQrfJlpexEazU75xrvkvMOVoKoVau1zqSHkh7Hi','2025-04-10 22:16:33','','Yifan Li',0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

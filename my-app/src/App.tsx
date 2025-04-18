@@ -7,8 +7,8 @@ import Home from "./pages/Home";
 
 const App: React.FC = () => {
   // const APIURL = "http://localhost:9067/api";
-  const APIURL = "http://10.23.103.80:9067/api"; // test on Mac
-  // const APIURL = "http://192.168.0.43:9067/api"; // test on Linux
+  // const APIURL = "http://10.23.103.80:9067/api"; // test on Mac
+  const APIURL = "http://192.168.0.43:9067/api"; // test on Linux
   return (
     <Router>
       <Routes>

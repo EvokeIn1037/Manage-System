@@ -1,13 +1,27 @@
-import db from '../config/db.js';
+import { connectDB } from '../config/db.js';
 
 export const findByEmail = async (email) => {
-  const [rows] = await db.query('SELECT * FROM users WHERE email = ?', [email]);
-  return rows[0];
+  const db = await connectDB();
+
+  return db
+    .collection('users')
+    .findOne({ email });
 };
 
 export const registerUser = async (email, name, password) => {
-  const [rows] = await db.query('INSERT INTO users (email, password, name) VALUES (?, ?, ?)', [email, password, name]);
-  return rows;
+  const db = await connectDB();
+  const now = new Date();
+
+  const { acknowledged, insertedId } = await db
+    .collection('users')
+    .insertOne({ email, name, password, createdAt: now });
+
+  if (!acknowledged) {
+    throw new Error('Failed to insert user');
+  }
+
+  // return the newly created document
+  return db.collection('users').findOne({ _id: insertedId });
 };
 
 export default {
