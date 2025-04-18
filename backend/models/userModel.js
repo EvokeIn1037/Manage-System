@@ -10,18 +10,27 @@ export const findByEmail = async (email) => {
 
 export const registerUser = async (email, name, password) => {
   const db = await connectDB();
-  const now = new Date();
+  const icon = "";
+  const isAdmin = false;
+
+  // ⚠️ Must use snake_case created_at and is_admin to match your validator!
+  const userDoc = {
+    email: email,                       // string
+    password: password,                    // string
+    created_at: new Date(),      // Date object
+    icon: icon,                        // string (e.g. "" or "avatar.png")
+    name: name,                        // string
+    is_admin: isAdmin,  // true/false
+  };
 
   const { acknowledged, insertedId } = await db
     .collection('users')
-    .insertOne({ email, name, password, createdAt: now });
+    .insertOne(userDoc);
 
   if (!acknowledged) {
     throw new Error('Failed to insert user');
   }
-
-  // return the newly created document
-  return db.collection('users').findOne({ _id: insertedId });
+  return insertedId;
 };
 
 export default {
