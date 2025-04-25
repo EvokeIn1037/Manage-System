@@ -118,7 +118,7 @@ export const columns: GridColDef[] = [
   },
   {
     field: 'returnReason',
-    headerName: 'Reason Reason',
+    headerName: 'Return Reason',
     headerAlign: 'center',
     align: 'center',
     flex: 1,
