@@ -24,6 +24,11 @@ interface ButtonFieldProps
   setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+interface CustomDatePickerProps {
+  todayDate: Date;
+  setTodayDate: (item: Date) => void;
+}
+
 function ButtonField(props: ButtonFieldProps) {
   const {
     setOpen,
@@ -51,16 +56,22 @@ function ButtonField(props: ButtonFieldProps) {
   );
 }
 
-export default function CustomDatePicker() {
-  const [value, setValue] = React.useState<Dayjs | null>(dayjs(new Date()));
+export default function CustomDatePicker({ todayDate, setTodayDate }: CustomDatePickerProps) {
+  const [value, setValue] = React.useState<Dayjs | null>(dayjs(todayDate));
   const [open, setOpen] = React.useState(false);
+
+  const handleDateChange = (newValue: Dayjs | null) => {
+    setValue(newValue);
+    const date = newValue?.toDate() ?? new Date();
+    setTodayDate(date);
+  };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DatePicker
         value={value}
         label={value == null ? null : value.format('MMM DD, YYYY')}
-        onChange={(newValue) => setValue(newValue)}
+        onChange={handleDateChange}
         slots={{ field: ButtonField }}
         slotProps={{
           field: { setOpen } as any,

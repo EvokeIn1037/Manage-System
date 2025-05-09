@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import authRoutes from './routes/authRoutes.js';
+import dataRoutes from './routes/dataRoutes.js';
 import dotenv from 'dotenv';
 import authMiddleware from './middleware/authMiddleware.js'
 import adminMiddleware from './middleware/adminMiddleware.js';
@@ -29,6 +30,8 @@ app.get("/api/me", (req, res) => {
 app.get("/api/admin", (req, res) => {
   adminMiddleware(req, res);
 });
+
+app.use("/api/data", dataRoutes);
 
 const PORT = process.env.PORT || 9067;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

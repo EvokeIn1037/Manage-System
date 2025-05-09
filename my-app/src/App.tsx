@@ -4,6 +4,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Home from "./pages/Home";
+import ApiTest from "./pages/ApiTest"
 
 const App: React.FC = () => {
   // const APIURL = "http://localhost:9067/api";
@@ -21,9 +22,11 @@ const App: React.FC = () => {
         {/* Protected Routes */}
         <Route path="/" element={
           <PrivateRoute apiurl={APIURL}>
-            <Home />
+            <Home apiurl={APIURL} />
           </PrivateRoute>}
         />
+
+        <Route path="/test" element={<ApiTest apiurl={APIURL} />} />
 
         {/* Redirect any unknown route to / */}
         <Route path="*" element={<Navigate to="/" />} />

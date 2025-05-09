@@ -10,9 +10,11 @@ import Search from './Search';
 
 interface HeaderProps {
   selectedMenuItem: string;
+  todayDate: Date;
+  setTodayDate: (item: Date) => void;
 }
 
-export default function Header({ selectedMenuItem }: HeaderProps) {
+export default function Header({ selectedMenuItem, todayDate, setTodayDate }: HeaderProps) {
   return (
     <Stack
       direction="row"
@@ -31,7 +33,7 @@ export default function Header({ selectedMenuItem }: HeaderProps) {
         {selectedMenuItem === "Analytics" && (
           <Search />
         )}
-        <CustomDatePicker />
+        <CustomDatePicker todayDate={todayDate} setTodayDate={setTodayDate} />
         {/* <MenuButton showBadge aria-label="Open notifications">
           <NotificationsRoundedIcon />
         </MenuButton> */}

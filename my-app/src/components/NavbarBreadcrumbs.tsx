@@ -27,7 +27,7 @@ export default function NavbarBreadcrumbs({ selectedMenuItem }: NavbarBreadcrumb
     >
       <Typography variant="body1">Dashboard</Typography>
       <Typography variant="body1" sx={{ color: 'text.primary', fontWeight: 600 }}>
-      {selectedMenuItem}
+        {selectedMenuItem}
       </Typography>
     </StyledBreadcrumbs>
   );

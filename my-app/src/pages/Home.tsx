@@ -26,16 +26,19 @@ const xThemeComponents = {
   ...treeViewCustomizations,
 };
 
-export default function Dashboard(props: { disableCustomTheme?: boolean; user?: string; icon?: string; name?: string; admin?: boolean; }) {
+export default function Dashboard(props: { disableCustomTheme?: boolean; apiurl?: string; user?: string; icon?: string; name?: string; admin?: boolean; }) {
   const [selectedMenuItem, setSelectedMenuItem] = React.useState("Home");
+  const [todayDate, setTodayDate] = React.useState(new Date(Date.now()));
   let userstr = "";
   let iconstr = "";
   let namestr = "";
   let isAdmin = false;
+  let apiurl = "";
   if (props.user) userstr = props.user;
   if (props.icon) iconstr = props.icon;
   if (props.name) namestr = props.name;
   if (props.admin) isAdmin = props.admin;
+  if (props.apiurl) apiurl = props.apiurl;
   
   return (
     <AppTheme {...props} themeComponents={xThemeComponents}>
@@ -63,8 +66,8 @@ export default function Dashboard(props: { disableCustomTheme?: boolean; user?: 
               mt: { xs: 8, md: 0 },
             }}
           >
-            <Header selectedMenuItem={selectedMenuItem} />
-            <MainGrid selectedMenuItem={selectedMenuItem} admin={isAdmin} />
+            <Header selectedMenuItem={selectedMenuItem} todayDate={todayDate} setTodayDate={setTodayDate} />
+            <MainGrid apiurl={apiurl} selectedMenuItem={selectedMenuItem} admin={isAdmin} todayDate={todayDate} />
           </Stack>
         </Box>
       </Box>

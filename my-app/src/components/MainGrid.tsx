@@ -6,11 +6,13 @@ import Typography from '@mui/material/Typography';
 import Copyright from '../internals/components/Copyright';
 
 interface MainGridProps {
+  apiurl: string;
   selectedMenuItem: string;
   admin: boolean;
+  todayDate: Date;
 }
 
-export default function MainGrid({ selectedMenuItem, admin }: MainGridProps) {
+export default function MainGrid({ apiurl, selectedMenuItem, admin, todayDate }: MainGridProps) {
   return (
     <Box sx={{ width: '100%', maxWidth: { sm: '100%', md: '1980px' } }}>
       {selectedMenuItem === "Home" && (
@@ -28,7 +30,7 @@ export default function MainGrid({ selectedMenuItem, admin }: MainGridProps) {
         </Box>
       )}
       {selectedMenuItem === "Analytics" && (
-        <AnalyticsGrid />
+        <AnalyticsGrid apiurl={apiurl} todayDate={todayDate} />
       )}
       {selectedMenuItem === "Tasks" && (
         <Box

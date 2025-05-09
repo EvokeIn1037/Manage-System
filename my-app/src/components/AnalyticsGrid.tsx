@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid2';
 import Typography from '@mui/material/Typography';
 import ChartUserByCountry from './ChartUserByCountry';
@@ -7,6 +8,12 @@ import CustomizedDataGrid from './CustomizedDataGrid';
 import PageViewsBarChart from './PageViewsBarChart';
 import SessionsChart from './SessionsChart';
 import StatCard, { StatCardProps } from './StatCard';
+import DateSelectionMenu from './DateSelection';
+
+interface AnalyticsGridProps {
+  apiurl: string;
+  todayDate: Date;
+}
 
 const data: StatCardProps[] = [
   {
@@ -41,15 +48,28 @@ const data: StatCardProps[] = [
   },
 ];
 
-export default function AnalyticsGrid() {
+export default function AnalyticsGrid({ apiurl, todayDate }: AnalyticsGridProps) {
+  const [dateTrig, setDateTrig] = React.useState(0);
+  const [startDate, setStartDate] = React.useState("");
+  const [endDate, setEndDate] = React.useState("");
   return (
     <>
-    <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
-      Details
-    </Typography>
+    <Box
+      sx={{
+        display: 'flex',
+        alignItems: 'center',      // vertical centering
+        justifyContent: 'space-between',
+        mb: 2,                     // bottom margin
+      }}
+    >
+      <Typography component="h2" variant="h6">
+        Details
+      </Typography>
+      <DateSelectionMenu todayDate={todayDate} dateTrig={dateTrig} setDateTrig={setDateTrig} setStartDate={setStartDate} setEndDate={setEndDate} />
+    </Box>
     <Grid container spacing={2} columns={12}>
       <Grid size={{ xs: 12, lg: 12 }}>
-        <CustomizedDataGrid />
+        <CustomizedDataGrid apiurl={apiurl} dateTrig={dateTrig} startDate={startDate} endDate={endDate} />
       </Grid>
     </Grid>
     {/* cards */}
