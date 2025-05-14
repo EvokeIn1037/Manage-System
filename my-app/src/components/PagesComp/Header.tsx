@@ -1,20 +1,16 @@
 import * as React from 'react';
 import Stack from '@mui/material/Stack';
 // import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded';
-import CustomDatePicker from './CustomDatePicker';
-import NavbarBreadcrumbs from './NavbarBreadcrumbs';
-// import MenuButton from './MenuButton';
-import ColorModeIconDropdown from '.././theme/ColorModeIconDropdown';
-
-import Search from './Search';
+// import CustomDatePicker from './../CustomComp/CustomDatePicker';
+import NavbarBreadcrumbs from './../SideMenuComp/NavbarBreadcrumbs';
+// import MenuButton from './../CustomComp/MenuButton';
+import ColorModeIconDropdown from './../../theme/ColorModeIconDropdown';
 
 interface HeaderProps {
   selectedMenuItem: string;
-  todayDate: Date;
-  setTodayDate: (item: Date) => void;
 }
 
-export default function Header({ selectedMenuItem, todayDate, setTodayDate }: HeaderProps) {
+export default function Header({ selectedMenuItem }: HeaderProps) {
   return (
     <Stack
       direction="row"
@@ -30,10 +26,6 @@ export default function Header({ selectedMenuItem, todayDate, setTodayDate }: He
     >
       <NavbarBreadcrumbs selectedMenuItem={selectedMenuItem} />
       <Stack direction="row" sx={{ gap: 1 }}>
-        {selectedMenuItem === "Analytics" && (
-          <Search />
-        )}
-        <CustomDatePicker todayDate={todayDate} setTodayDate={setTodayDate} />
         {/* <MenuButton showBadge aria-label="Open notifications">
           <NotificationsRoundedIcon />
         </MenuButton> */}

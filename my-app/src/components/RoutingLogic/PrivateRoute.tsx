@@ -3,10 +3,11 @@ import { Navigate } from "react-router-dom";
 
 interface PrivateRouteProps {
   children: JSX.Element;
+  puburl: string;
   apiurl: string;
 }
 
-const PrivateRoute: React.FC<PrivateRouteProps> = ({ children, apiurl }) => {
+const PrivateRoute: React.FC<PrivateRouteProps> = ({ children, puburl, apiurl }) => {
   const [isAuthenticated, setIsAuthenticated] = React.useState<boolean | null>(null); // null = loading
   const [loading, setLoading] = React.useState(true);
 
@@ -14,6 +15,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ children, apiurl }) => {
   const [iconstr, setIconstr] = React.useState("");
   const [namestr, setNamestr] = React.useState("");
   const [isAdmin, setAdmin] = React.useState(false);
+  const [canReport, setReport] = React.useState(false);
 
   React.useEffect(() => {
     const checkAuth = async () => {
@@ -46,10 +48,12 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ children, apiurl }) => {
         });
 
         const data = await res.json();
-        if (res.ok && data.admin) {
-          setAdmin(true);
+        if (res.ok) {
+          setAdmin(data.admin);
+          setReport(data.report);
         } else {
           setAdmin(false);
+          setReport(false);
         }
       } catch (error) {
         console.error("Admin check failed", error);
@@ -69,7 +73,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ children, apiurl }) => {
     return <Navigate to="/signin" replace />;
   }
 
-  return React.cloneElement(children, { user: userstr, icon: iconstr, name: namestr, admin: isAdmin });
+  return React.cloneElement(children, { puburl: puburl, apiurl: apiurl, user: userstr, icon: iconstr, name: namestr, admin: isAdmin, report: canReport });
 };
 
 export default PrivateRoute;

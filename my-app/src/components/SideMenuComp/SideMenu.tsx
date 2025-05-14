@@ -6,7 +6,8 @@ import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import SelectContent from './SelectContent';
+// import SelectContent from './../CustomComp/SelectContent';
+import CompanyCard from './../CompanyComp/CompanyCard';
 import MenuContent from './MenuContent';
 import OptionsMenu from './OptionsMenu';
 
@@ -26,12 +27,15 @@ const Drawer = styled(MuiDrawer)({
 interface SideMenuProps {
   selectedMenuItem: string;
   setSelectedMenuItem: (item: string) => void;
+  puburl: string;
   user: string;
   icon: string;
   name: string;
 }
 
-export default function SideMenu({ selectedMenuItem, setSelectedMenuItem, user, icon, name }: SideMenuProps) {
+export default function SideMenu({ selectedMenuItem, setSelectedMenuItem, puburl, user, icon, name }: SideMenuProps) {
+  const icoUrl = icon ? `${puburl}${icon}` : "";
+  
   return (
     <Drawer
       variant="permanent"
@@ -49,7 +53,8 @@ export default function SideMenu({ selectedMenuItem, setSelectedMenuItem, user, 
           p: 1.5,
         }}
       >
-        <SelectContent />
+        {/* <SelectContent /> */}
+        <CompanyCard />
       </Box>
       <Divider />
       <Box
@@ -75,7 +80,7 @@ export default function SideMenu({ selectedMenuItem, setSelectedMenuItem, user, 
         <Avatar
           sizes="small"
           alt="User"
-          src=""
+          src={icoUrl}
           sx={{ width: 36, height: 36 }}
         />
         <Box sx={{ mr: 'auto' }}>

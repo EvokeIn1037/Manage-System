@@ -2,17 +2,21 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { DataGrid, GridRowsProp } from '@mui/x-data-grid';
-import { columns } from '../internals/data/gridData';
+import { columns } from './gridData';
 
 interface CustomizedDataGridProps {
   apiurl: string;
   dateTrig: number;
   startDate: string;
   endDate: string;
+  rows: GridRowsProp;
+  setRows: React.Dispatch<React.SetStateAction<GridRowsProp>>;
+  rowsShown: GridRowsProp;
+  setRowsShown: React.Dispatch<React.SetStateAction<GridRowsProp>>;
 }
 
-export default function CustomizedDataGrid({ apiurl, dateTrig, startDate, endDate }: CustomizedDataGridProps) {
-  const [rows, setRows] = React.useState<GridRowsProp>([]);
+export default function CustomizedDataGrid({ apiurl, dateTrig, startDate, endDate, rows, setRows, rowsShown, setRowsShown }: CustomizedDataGridProps) {
+  // const [rows, setRows] = React.useState<GridRowsProp>([]);
   const [nowDTrig, setNowDTrig] = React.useState(0);
   const [loading, setLoading] = React.useState<boolean>(false);
   const [hintInfo, setHintInfo] = React.useState("Please select the date range!");
@@ -20,6 +24,7 @@ export default function CustomizedDataGrid({ apiurl, dateTrig, startDate, endDat
 
   React.useEffect(() => {
     if (dateTrig !== nowDTrig) {
+      setRowsShown([]);
       setRows([]);
       setHintInfoFlag(true);
       const fetchRows = async () => {
@@ -36,10 +41,12 @@ export default function CustomizedDataGrid({ apiurl, dateTrig, startDate, endDat
             throw new Error(`Server error: ${res.status}`);
           }
           const data: GridRowsProp = await res.json();
+          setRowsShown(data);
           setRows(data);
           setNowDTrig(dateTrig);
         } catch (err) {
           console.error('Failed to load rows:', err);
+          setRowsShown([]);
           setRows([]);
         } finally {
           setLoading(false);
@@ -48,7 +55,7 @@ export default function CustomizedDataGrid({ apiurl, dateTrig, startDate, endDat
 
       fetchRows();
     }
-  }, [dateTrig, nowDTrig]);
+  }, [apiurl, dateTrig, nowDTrig, startDate, endDate]);
 
   // if still no data (or loading) show placeholder
   if (!rows.length) {
@@ -78,7 +85,7 @@ export default function CustomizedDataGrid({ apiurl, dateTrig, startDate, endDat
   return (
     <DataGrid
       checkboxSelection
-      rows={rows}
+      rows={rowsShown}
       columns={columns}
       getRowClassName={(params) =>
         params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'

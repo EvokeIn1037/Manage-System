@@ -13,11 +13,17 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
-import ForgotPassword from '../components/ForgotPassword';
+import ForgotPassword from '../components/SignLogic/ForgotPassword';
 import AppTheme from '../theme/AppTheme';
 import ColorModeSelect from '../theme/ColorModeSelect';
-import { GoogleIcon, FacebookIcon, SitemarkIcon } from '../components/CustomIcons';
+// import { GoogleIcon, FacebookIcon, SitemarkIcon } from '../components/CustomComp/CustomIcons';
+import { BettabotIcon } from '../components/CompanyComp/CompanyIcon';
 import { useNavigate } from 'react-router-dom';
+
+interface SignInProps {
+  disableCustomTheme?: boolean;
+  apiurl: string;
+}
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -61,8 +67,7 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
   },
 }));
 
-export default function SignIn(props: { disableCustomTheme?: boolean; apiurl?: string; }) {
-  const [hasCookie, setHasCookie] = React.useState(false);
+export default function SignIn(props: SignInProps) {
   const [emailValue, setEmailValue] = React.useState("");
   
   React.useEffect(() => {
@@ -75,10 +80,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean; apiurl?: s
         });
 
         const data = await res.json();
-        if (res.ok && data.authenticated) {
-          setEmailValue(data.user || "");
-          setHasCookie(true);
-        }
+        if (res.ok && data.authenticated) setEmailValue(data.user || "");
       } catch (error) {
         console.error("Auth check failed", error);
       }
@@ -154,7 +156,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean; apiurl?: s
 
     let isValid = validateInputs();
 
-    if (isValid && props.apiurl) {
+    if (isValid) {
       try {
         const res = await fetch(props.apiurl + '/auth/signin', {
           method: 'POST',
@@ -184,7 +186,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean; apiurl?: s
       <SignInContainer direction="column" justifyContent="space-between">
         <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} />
         <Card variant="outlined">
-          <SitemarkIcon />
+          <BettabotIcon />
           <Typography
             component="h1"
             variant="h4"

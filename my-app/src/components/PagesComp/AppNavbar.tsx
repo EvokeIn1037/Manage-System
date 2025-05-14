@@ -7,10 +7,12 @@ import MuiToolbar from '@mui/material/Toolbar';
 import { tabsClasses } from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
-import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
-import SideMenuMobile from './SideMenuMobile';
-import MenuButton from './MenuButton';
-import ColorModeIconDropdown from '.././theme/ColorModeIconDropdown';
+// import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
+import SideMenuMobile from './../SideMenuComp/SideMenuMobile';
+import MenuButton from './../CustomComp/MenuButton';
+import ColorModeIconDropdown from './../../theme/ColorModeIconDropdown';
+import { Avatar } from '@mui/material';
+import BettaIcon from './../../assets/betta.ico';
 
 const Toolbar = styled(MuiToolbar)({
   width: '100%',
@@ -31,10 +33,12 @@ const Toolbar = styled(MuiToolbar)({
 interface AppNavbarProps {
   selectedMenuItem: string;
   setSelectedMenuItem: (item: string) => void;
+  puburl: string;
   name: string;
+  icon: string;
 }
 
-export default function AppNavbar({ selectedMenuItem, setSelectedMenuItem, name }: AppNavbarProps) {
+export default function AppNavbar({ selectedMenuItem, setSelectedMenuItem, puburl, name, icon }: AppNavbarProps) {
   const [open, setOpen] = React.useState(false);
 
   const toggleDrawer = (newOpen: boolean) => () => {
@@ -78,7 +82,7 @@ export default function AppNavbar({ selectedMenuItem, setSelectedMenuItem, name 
           <MenuButton aria-label="menu" onClick={toggleDrawer(true)}>
             <MenuRoundedIcon />
           </MenuButton>
-          <SideMenuMobile open={open} toggleDrawer={toggleDrawer} selectedMenuItem={selectedMenuItem} setSelectedMenuItem={setSelectedMenuItem} name={ name } />
+          <SideMenuMobile open={open} toggleDrawer={toggleDrawer} selectedMenuItem={selectedMenuItem} setSelectedMenuItem={setSelectedMenuItem} puburl={puburl} name={ name } icon={icon} />
         </Stack>
       </Toolbar>
     </AppBar>
@@ -105,7 +109,8 @@ export function CustomIcon() {
         boxShadow: 'inset 0 2px 5px rgba(255, 255, 255, 0.3)',
       }}
     >
-      <DashboardRoundedIcon color="inherit" sx={{ fontSize: '1rem' }} />
+      {/* <DashboardRoundedIcon color="inherit" sx={{ fontSize: '1rem' }} /> */}
+      <Avatar color="inherit" sx={{ fontSize: '1rem' }} src={BettaIcon}></Avatar>
     </Box>
   );
 }

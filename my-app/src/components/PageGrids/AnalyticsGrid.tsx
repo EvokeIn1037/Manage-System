@@ -2,13 +2,16 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid2';
 import Typography from '@mui/material/Typography';
-import ChartUserByCountry from './ChartUserByCountry';
-import CustomizedTreeView from './CustomizedTreeView';
-import CustomizedDataGrid from './CustomizedDataGrid';
-import PageViewsBarChart from './PageViewsBarChart';
-import SessionsChart from './SessionsChart';
-import StatCard, { StatCardProps } from './StatCard';
-import DateSelectionMenu from './DateSelection';
+import ChartUserByCountry from './../ChartsComp/ChartUserByCountry';
+import CustomizedTreeView from './../CustomComp/CustomizedTreeView';
+import CustomizedDataGrid from './../AnalyticsComp/CustomizedDataGrid';
+import PageViewsBarChart from './../ChartsComp/PageViewsBarChart';
+import SessionsChart from './../ChartsComp/SessionsChart';
+import StatCard, { StatCardProps } from './../CustomComp/StatCard';
+import DateSelectionMenu from './../AnalyticsComp/DateSelection';
+import { GridRowsProp } from '@mui/x-data-grid';
+import Search from './../AnalyticsComp/Search';
+import SearchColMenu from './../AnalyticsComp/SearchColMenu';
 
 interface AnalyticsGridProps {
   apiurl: string;
@@ -52,6 +55,9 @@ export default function AnalyticsGrid({ apiurl, todayDate }: AnalyticsGridProps)
   const [dateTrig, setDateTrig] = React.useState(0);
   const [startDate, setStartDate] = React.useState("");
   const [endDate, setEndDate] = React.useState("");
+  const [rows, setRows] = React.useState<GridRowsProp>([]);
+  const [rowsShown, setRowsShown] = React.useState<GridRowsProp>([]);
+  const [searchMode, setSearchMode] = React.useState(0);
   return (
     <>
     <Box
@@ -59,17 +65,44 @@ export default function AnalyticsGrid({ apiurl, todayDate }: AnalyticsGridProps)
         display: 'flex',
         alignItems: 'center',      // vertical centering
         justifyContent: 'space-between',
-        mb: 2,                     // bottom margin
       }}
     >
       <Typography component="h2" variant="h6">
         Details
       </Typography>
-      <DateSelectionMenu todayDate={todayDate} dateTrig={dateTrig} setDateTrig={setDateTrig} setStartDate={setStartDate} setEndDate={setEndDate} />
+    </Box>
+    <Box
+      sx={{
+        display: 'flex',
+        alignItems: 'center',      // vertical centering
+        justifyContent: 'end',
+        mb: 2,                     // bottom margin,
+        gap: 1
+      }}
+    >
+      <Grid
+        container
+        spacing={2}
+        columns={12}
+        justifyContent="center"   // horizontally center
+        alignItems="center"       // vertically center
+      >
+        <Grid container spacing={1} columns={12} justifyContent="center" alignItems="center">
+          <Grid size={{ xs: 5.5, sm: 5.5, lg: 5.5 }}>
+            <SearchColMenu setSearchMode={setSearchMode} />
+          </Grid>
+          <Grid size={{ xs: 6.5, sm: 6.5, lg: 6.5 }}>
+            <Search searchMode={searchMode} rows={rows} rowsShown={rowsShown} setRowsShown={setRowsShown} />
+          </Grid>
+        </Grid>
+        <Grid>
+          <DateSelectionMenu todayDate={todayDate} dateTrig={dateTrig} setDateTrig={setDateTrig} setStartDate={setStartDate} setEndDate={setEndDate} />
+        </Grid>
+      </Grid>
     </Box>
     <Grid container spacing={2} columns={12}>
       <Grid size={{ xs: 12, lg: 12 }}>
-        <CustomizedDataGrid apiurl={apiurl} dateTrig={dateTrig} startDate={startDate} endDate={endDate} />
+        <CustomizedDataGrid apiurl={apiurl} dateTrig={dateTrig} startDate={startDate} endDate={endDate} rows={rows} setRows={setRows} rowsShown={rowsShown} setRowsShown={setRowsShown} />
       </Grid>
     </Grid>
     {/* cards */}

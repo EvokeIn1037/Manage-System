@@ -3,12 +3,12 @@ import MuiAvatar from '@mui/material/Avatar';
 import MuiListItemAvatar from '@mui/material/ListItemAvatar';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemText from '@mui/material/ListItemText';
-// import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemIcon from '@mui/material/ListItemIcon';
 import ListSubheader from '@mui/material/ListSubheader';
 import Select, { SelectChangeEvent, selectClasses } from '@mui/material/Select';
 import Divider from '@mui/material/Divider';
 import { styled } from '@mui/material/styles';
-// import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import DevicesRoundedIcon from '@mui/icons-material/DevicesRounded';
 import SmartphoneRoundedIcon from '@mui/icons-material/SmartphoneRounded';
 import ConstructionRoundedIcon from '@mui/icons-material/ConstructionRounded';
@@ -59,45 +59,44 @@ export default function SelectContent() {
       <ListSubheader sx={{ pt: 0 }}>Production</ListSubheader>
       <MenuItem value="">
         <ListItemAvatar>
-          <Avatar alt="Bettabot web">
+          <Avatar alt="Sitemark web">
             <DevicesRoundedIcon sx={{ fontSize: '1rem' }} />
           </Avatar>
         </ListItemAvatar>
-        <ListItemText primary="Bettabot-web" secondary="Web app" />
+        <ListItemText primary="Sitemark-web" secondary="Web app" />
       </MenuItem>
       <MenuItem value={10}>
         <ListItemAvatar>
-          <Avatar alt="Bettabot App">
+          <Avatar alt="Sitemark App">
             <SmartphoneRoundedIcon sx={{ fontSize: '1rem' }} />
           </Avatar>
         </ListItemAvatar>
-        <ListItemText primary="Bettabot-app" secondary="Mobile application" />
+        <ListItemText primary="Sitemark-app" secondary="Mobile application" />
       </MenuItem>
-      {/* <MenuItem value={20}>
+      <MenuItem value={20}>
         <ListItemAvatar>
-          <Avatar alt="Bettabot Store">
+          <Avatar alt="Sitemark Store">
             <DevicesRoundedIcon sx={{ fontSize: '1rem' }} />
           </Avatar>
         </ListItemAvatar>
-        <ListItemText primary="Bettabot-Store" secondary="Web app" />
-      </MenuItem> */}
-      <Divider sx={{ mx: -1 }} />
+        <ListItemText primary="Sitemark-Store" secondary="Web app" />
+      </MenuItem>
       <ListSubheader>Development</ListSubheader>
       <MenuItem value={30}>
         <ListItemAvatar>
-          <Avatar alt="Bettabot Store">
+          <Avatar alt="Sitemark Store">
             <ConstructionRoundedIcon sx={{ fontSize: '1rem' }} />
           </Avatar>
         </ListItemAvatar>
-        <ListItemText primary="Bettabot-Admin" secondary="Web app" />
+        <ListItemText primary="Sitemark-Admin" secondary="Web app" />
       </MenuItem>
-      {/* <Divider sx={{ mx: -1 }} />
+      <Divider sx={{ mx: -1 }} />
       <MenuItem value={40}>
         <ListItemIcon>
           <AddRoundedIcon />
         </ListItemIcon>
         <ListItemText primary="Add product" secondary="Web app" />
-      </MenuItem> */}
+      </MenuItem>
     </Select>
   );
 }

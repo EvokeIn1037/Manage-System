@@ -7,18 +7,30 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 // import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded';
-// import MenuButton from './MenuButton';
+// import MenuButton from './../CustomComp/MenuButton';
 import MenuContent from './MenuContent';
+import { useNavigate } from 'react-router-dom';
 
 interface SideMenuMobileProps {
   open: boolean | undefined;
   toggleDrawer: (newOpen: boolean) => () => void;
   selectedMenuItem: string;
   setSelectedMenuItem: (item: string) => void;
+  puburl: string;
   name: string;
+  icon: string;
 }
 
-export default function SideMenuMobile({ open, toggleDrawer, selectedMenuItem, setSelectedMenuItem, name }: SideMenuMobileProps) {
+export default function SideMenuMobile({ open, toggleDrawer, selectedMenuItem, setSelectedMenuItem, puburl, name, icon }: SideMenuMobileProps) {
+  const navigate = useNavigate();
+  
+  const jumpLogout = (event: React.MouseEvent<HTMLElement>) => {
+    event.preventDefault();
+    navigate("/signin");
+  };
+
+  const icoUrl = icon ? `${puburl}${icon}` : "";
+  
   return (
     <Drawer
       anchor="right"
@@ -46,7 +58,7 @@ export default function SideMenuMobile({ open, toggleDrawer, selectedMenuItem, s
             <Avatar
               sizes="small"
               alt="User"
-              src=""
+              src={icoUrl}
               sx={{ width: 24, height: 24 }}
             />
             <Typography component="p" variant="h6">
@@ -63,7 +75,7 @@ export default function SideMenuMobile({ open, toggleDrawer, selectedMenuItem, s
           <Divider />
         </Stack>
         <Stack sx={{ p: 2 }}>
-          <Button variant="outlined" fullWidth startIcon={<LogoutRoundedIcon />}>
+          <Button variant="outlined" fullWidth startIcon={<LogoutRoundedIcon />} onClick={jumpLogout}>
             Logout
           </Button>
         </Stack>
