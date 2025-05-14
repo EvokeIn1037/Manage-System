@@ -7,7 +7,8 @@ const adminMiddleware = (req, res) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;
-    return res.json({ admin: decoded.admin, report: decoded.report });
+    if (decoded.admin) return res.json({ admin: true });
+    else return res.json({ admin: false });
   } catch (err) {
     return res.status(403).json({ message: 'Token invalid or expired' });
   }
