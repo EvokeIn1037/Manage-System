@@ -87,7 +87,7 @@ export const findByDate = async (start, end) => {
       }
     );
 
-    let test_issue = "There is no issue.";
+    let test_issue = "There is no issue recorded.";
     if (record != null && record.has_issue === true) {
       test_issue = "";
       const lenint = record.issues.length, lenmap = record.notes.size;
