@@ -33,5 +33,7 @@ app.get("/api/admin", (req, res) => {
 
 app.use("/api/data", dataRoutes);
 
+app.use(express.static("./public"));
+
 const PORT = process.env.PORT || 9067;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
