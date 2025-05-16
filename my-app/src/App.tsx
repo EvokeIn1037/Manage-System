@@ -5,7 +5,6 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Home from "./pages/Home";
 import ApiTest from "./pages/ApiTest"
-import BettaIssueReport from "./pages/Table";
 
 const App: React.FC = () => {
   // const BACKPUB = "http://localhost:9067/";
@@ -29,8 +28,6 @@ const App: React.FC = () => {
         />
 
         <Route path="/test" element={<ApiTest apiurl={APIURL} />} />
-
-        <Route path="/table" element={<BettaIssueReport />} />
 
         {/* Redirect any unknown route to / */}
         <Route path="*" element={<Navigate to="/" />} />
