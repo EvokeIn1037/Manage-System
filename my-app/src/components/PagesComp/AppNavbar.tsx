@@ -23,7 +23,7 @@ const Toolbar = styled(MuiToolbar)({
   justifyContent: 'center',
   gap: '12px',
   flexShrink: 0,
-  [`& ${tabsClasses.flexContainer}`]: {
+  [`& ${tabsClasses.list}`]: {
     gap: '8px',
     p: '8px',
     pb: 0,
@@ -74,7 +74,7 @@ export default function AppNavbar({ selectedMenuItem, setSelectedMenuItem, pubur
             sx={{ justifyContent: 'center', mr: 'auto' }}
           >
             <CustomIcon />
-            <Typography variant="h4" component="h1" sx={{ color: 'text.primary' }}>
+            <Typography variant="h5" component="h2" sx={{ pl: 1, color: 'text.primary' }}>
               Betta Repair Customers
             </Typography>
           </Stack>

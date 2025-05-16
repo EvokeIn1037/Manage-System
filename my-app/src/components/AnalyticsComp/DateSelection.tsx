@@ -72,7 +72,7 @@ function formatYMD(date: Date): string {
 
 function getPrevMonthRange(todayStr: string): { firstDay: string; lastDay: string } {
   // 1️⃣ Parse input
-  const [y, m /*1-12*/, d] = todayStr.split('-').map(Number);
+  const [y, m] = todayStr.split('-').map(Number);
 
   // 2️⃣ Start at the 1st of this month
   //    monthIndex = m-1 since JS Date months are 0-11
@@ -219,41 +219,48 @@ export default function DateSelectionMenu({ todayDate, dateTrig, setDateTrig, se
         endIcon={<KeyboardArrowDownIcon />}
         sx={{
           bgcolor: 'primary.main',
+          backgroundImage: 'none',
+          borderColor: 'primary.main',
+          boxShadow: theme => `0px 2px 6px ${theme.palette.grey[500]}`,
           color: 'primary.contrastText',      // ensure text is readable
           '&:hover': {
             bgcolor: 'primary.dark',          // darker on hover
+            backgroundImage: 'none',
           },
           // width: "100%",
-          height: "100%"
+          height: "100%",
         }}
       >
         {buttonName}
       </Button>
       <StyledMenu
         id="date-selection-button"
-        MenuListProps={{
-          'aria-labelledby': 'date-selection-button',
+        slotProps={{
+          list: {
+            'aria-labelledby': 'date-selection-button',
+            // any other MenuListProps go here
+          },
         }}
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
       >
-        <MenuItem onClick={changeToday} disableRipple>
+        <MenuItem onClick={changeToday} sx={{ pl: '2rem' }} disableRipple>
           Today
         </MenuItem>
-        <MenuItem onClick={changeYesterday} disableRipple>
+        <MenuItem onClick={changeYesterday} sx={{ pl: '2rem' }} disableRipple>
           Yesterday
         </MenuItem>
-        <MenuItem onClick={changeLast7Days} disableRipple>
+        <MenuItem onClick={changeLast7Days} sx={{ pl: '2rem' }} disableRipple>
           Last 7 Days
         </MenuItem>
-        <MenuItem onClick={changeLast30Days} disableRipple>
+        <MenuItem onClick={changeLast30Days} sx={{ pl: '2rem' }} disableRipple>
           Last 30 Days
         </MenuItem>
-        <MenuItem onClick={changeThisMonth} disableRipple>
+        <MenuItem onClick={changeThisMonth} sx={{ pl: '2rem' }} disableRipple>
           This Month
         </MenuItem>
-        <MenuItem onClick={changeLastMonth} disableRipple>
+        <MenuItem onClick={changeLastMonth} sx={{ pl: '2rem' }} disableRipple>
           Last Month
         </MenuItem>
         <Divider sx={{ my: 0.5 }} />

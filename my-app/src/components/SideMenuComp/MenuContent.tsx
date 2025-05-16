@@ -37,8 +37,20 @@ export default function MenuContent({ selectedMenuItem, setSelectedMenuItem }: M
         {mainListItems.map((item, index) => (
           <ListItem key={index} disablePadding sx={{ display: 'block' }}>
             <ListItemButton selected={selectedMenuItem === item.text} onClick={() => setSelectedMenuItem(item.text)}>
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.text} />
+              <ListItemIcon sx={{ '&&': {fontSize: '1.15rem'} }}>{item.icon}</ListItemIcon>
+              <ListItemText
+                primary={item.text}
+                slotProps={{
+                  primary: {
+                    sx: {
+                      '&&': {
+                        fontSize: '1.15rem',
+                        fontWeight: '600',
+                      }
+                    },
+                  },
+                }}
+              />
             </ListItemButton>
           </ListItem>
         ))}

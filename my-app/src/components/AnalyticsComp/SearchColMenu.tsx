@@ -96,29 +96,36 @@ export default function SearchColMenu({ setSearchMode }: SearchColProps) {
         endIcon={<KeyboardArrowDownIcon />}
         sx={{
           bgcolor: 'primary.main',
+          backgroundImage: 'none',
+          borderColor: 'primary.main',
+          boxShadow: theme => `0px 2px 6px ${theme.palette.grey[500]}`,
           color: 'primary.contrastText',      // ensure text is readable
           '&:hover': {
             bgcolor: 'primary.dark',          // darker on hover
+            backgroundImage: 'none',
           },
           // width: "100%",
-          height: "100%"
+          height: "100%",
         }}
       >
         {buttonName}
       </Button>
       <StyledMenu
         id="date-selection-button"
-        MenuListProps={{
-          'aria-labelledby': 'date-selection-button',
+        slotProps={{
+          list: {
+            'aria-labelledby': 'date-selection-button',
+            // any other MenuListProps go here
+          },
         }}
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
       >
-        <MenuItem onClick={changeSN} disableRipple>
+        <MenuItem onClick={changeSN} sx={{ pl: '2rem' }} disableRipple>
           Serial Number
         </MenuItem>
-        <MenuItem onClick={changeON} disableRipple>
+        <MenuItem onClick={changeON} sx={{ pl: '2rem' }} disableRipple>
           Order Number
         </MenuItem>
       </StyledMenu>
