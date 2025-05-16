@@ -6,6 +6,8 @@ import TextField from '@mui/material/TextField';
 import PinInput from "react-pin-input";
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import TestReportTable from './TesterTable';
+import RepairReportTable from './RepairTable';
 
 interface ReportTableProps {
   usr: string;
@@ -48,7 +50,7 @@ export default function ReportTable({usr}: ReportTableProps) {
     const [snValid, setSNValid] = React.useState(false);
     const [selectTab, setSelectTab] = React.useState(0);
 
-    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
         setSelectTab(newValue);
     };
 
@@ -196,10 +198,10 @@ export default function ReportTable({usr}: ReportTableProps) {
                         </Tabs>
                     </Box>
                     <CustomTabPanel value={selectTab} index={0}>
-                        Item One
+                        <TestReportTable />
                     </CustomTabPanel>
                     <CustomTabPanel value={selectTab} index={1}>
-                        Item Two
+                        <RepairReportTable />
                     </CustomTabPanel>
                 </Box>
             </Box>
