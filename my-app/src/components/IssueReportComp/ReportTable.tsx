@@ -3,74 +3,69 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid2';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-import PinInput from "react-pin-input";
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import TestReportTable from './TesterTable';
-import RepairReportTable from './RepairTable';
+// import PinInput from "react-pin-input";
+import TestReport from './TestReport';
+import RepairReport from './RepairReport';
+import ModelTable from './ModelTable';
 
 interface ReportTableProps {
   usr: string;
+  testT?: boolean;
+  repairT?: boolean;
 }
 
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
-
-function CustomTabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box sx={{ p: 3, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>{children}</Box>}
-    </div>
-  );
-}
-
-function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
-}
-
-export default function ReportTable({usr}: ReportTableProps) {
-    const [initialName, setInitialName] = React.useState(usr);
+export default function ReportTable(props: ReportTableProps) {
+    const [nameLabel, setNameLabel] = React.useState("Name");
+    const [initialName, setInitialName] = React.useState(props.usr);
     const [sn, setSN] = React.useState("");
-    const [snCompleted, setSNCompleted] = React.useState(false);
+    // const [snCompleted, setSNCompleted] = React.useState(false);
     const [snHint, setSNHint] = React.useState("");
     const [snValid, setSNValid] = React.useState(false);
-    const [selectTab, setSelectTab] = React.useState(0);
-
-    const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
-        setSelectTab(newValue);
-    };
+    const [model, setModel] = React.useState(-1);
 
     React.useEffect(() => {
-        if (snCompleted === true) {
-            console.log(sn);
-            if (sn.length != 12) {
-                setSNHint("Serial Number Length Wrong!");
-                setSNValid(false);
+        if (props.testT) setNameLabel("Tester Name");
+        else if (props.repairT) setNameLabel("Technician Name");
+    })
+
+    const snRef = React.useRef<HTMLInputElement>(null);
+
+    // const handleChange = (v: string) => {
+    //     console.log("Input value is: " + v);
+    //     setSN(v);
+    // };
+
+    React.useEffect(() => {
+        snRef.current?.focus();
+    }, []);
+
+    React.useEffect(() => {
+        const onKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Enter' && document.activeElement === snRef.current) {
+                console.log(sn.slice(3, 15));
+                if (sn.slice(3, 15).length != 12) {
+                    setSNHint("Serial Number Length Wrong!");
+                    setSNValid(false);
+                }
+                else if (sn.slice(3, 15)[0] != '6' || (sn.slice(3, 15)[1] === '0' || sn.slice(3, 15)[1] === '1') === false || sn.slice(3, 15).slice(2, 5) != "202") {
+                    setSNHint("Serial Number Invalid!");
+                    setSNValid(false);
+                }
+                else {
+                    setSNHint("");
+                    setSNValid(true);
+                }
+                setSN(sn.slice(3, 15));
             }
-            else if (sn[0] != '6' || (sn[1] === '0' || sn[1] === '1') === false || sn.slice(2, 5) != "202") {
-                setSNHint("Serial Number Invalid!");
-                setSNValid(false);
-            }
-            else {
-                setSNHint("");
-                setSNValid(true);
-            }
-        }
-    });
+        };
+        window.addEventListener('keydown', onKeyDown);
+        return () => window.removeEventListener('keydown', onKeyDown);
+    }, [sn]);
+
+    // const handleComplete = () => {
+    //     if (sn.length === 12) setSNCompleted(true);
+    //     else setSNCompleted(false);
+    // };
 
     return (
         <>
@@ -84,7 +79,15 @@ export default function ReportTable({usr}: ReportTableProps) {
                     // '& .MuiTextField-root': { my: 1 }
                 }}
             >
-                <Grid container spacing={2} columns={12} sx={{width: "95%"}}>
+                <Grid
+                    container
+                    spacing={2}
+                    columns={12}
+                    sx={{
+                        width: "95%",
+                        alignItems: "center",
+                    }}
+                >
                     <Grid
                         container
                         spacing={0}
@@ -107,8 +110,8 @@ export default function ReportTable({usr}: ReportTableProps) {
                             <TextField
                                 required
                                 fullWidth
-                                id="filled-required"
-                                label="Initial"
+                                id="user-name-input"
+                                label={nameLabel}
                                 value={initialName}
                                 variant="filled"
                                 onChange={(e: React.ChangeEvent<
@@ -120,7 +123,7 @@ export default function ReportTable({usr}: ReportTableProps) {
                         </Grid>
                     </Grid>
                     
-                    <Grid size={{ xs: 12, sm: 8.5, lg: 7 }}>
+                    <Grid size={{ xs: 12, sm: 4.5, lg: 4.5 }}>
                         <Grid
                             container
                             spacing={1}
@@ -151,15 +154,16 @@ export default function ReportTable({usr}: ReportTableProps) {
                             </Grid>
                         </Grid>
                         <Grid>
-                            <PinInput 
+                            {/* <PinInput 
                                 length={12}
+                                focus
                                 // only allow digits
                                 regexCriteria={/^[0-9]$/}
                                 inputMode="numeric"
                                 // called on each change
-                                onChange={setSN}
+                                onChange={(value) => handleChange(value)}
                                 // called once all inputs are filled and valid
-                                onComplete={() => setSNCompleted(true)}
+                                onComplete={handleComplete}
                                 // styling each input
                                 style={{
                                     textAlign: 'center',
@@ -176,8 +180,25 @@ export default function ReportTable({usr}: ReportTableProps) {
                                     borderColor: 'blue',
                                     borderRadius: '0.5rem'
                                 }}
+                            /> */}
+                            <TextField
+                                required
+                                fullWidth
+                                id="sn-input"
+                                label="Serial Number"
+                                inputRef={snRef}
+                                value={sn}
+                                variant="filled"
+                                onChange={(e: React.ChangeEvent<
+                                    HTMLInputElement | HTMLTextAreaElement
+                                >) => {
+                                    setSN(e.target.value);
+                                }}
                             />
                         </Grid>
+                    </Grid>
+                    <Grid size={{ xs: 12, sm: 4, lg: 2.5 }}>
+                        <ModelTable model={model} setModel={setModel} edit={props.testT ? true : false} />
                     </Grid>
                 </Grid>
             </Box>
@@ -191,18 +212,12 @@ export default function ReportTable({usr}: ReportTableProps) {
                 }}
             >
                 <Box sx={{width: "95%"}}>
-                    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                        <Tabs value={selectTab} onChange={handleChange} variant="fullWidth" aria-label="basic tabs example">
-                            <Tab label="Tester Issue Report" {...a11yProps(0)} />
-                            <Tab label="Technician Issue Report" {...a11yProps(1)} />
-                        </Tabs>
-                    </Box>
-                    <CustomTabPanel value={selectTab} index={0}>
-                        <TestReportTable />
-                    </CustomTabPanel>
-                    <CustomTabPanel value={selectTab} index={1}>
-                        <RepairReportTable />
-                    </CustomTabPanel>
+                    {props.testT && (
+                        <TestReport usr={initialName} sn={sn} snValid={snValid} />
+                    )}
+                    {props.repairT && (
+                        <RepairReport />
+                    )}
                 </Box>
             </Box>
         </>

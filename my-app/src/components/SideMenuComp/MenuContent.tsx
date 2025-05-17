@@ -9,6 +9,7 @@ import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import AnalyticsRoundedIcon from '@mui/icons-material/AnalyticsRounded';
 // import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded';
 import AssignmentRoundedIcon from '@mui/icons-material/AssignmentRounded';
+import AssignmentLateRoundedIcon from '@mui/icons-material/AssignmentLateRounded';
 // import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 // import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 // import HelpRoundedIcon from '@mui/icons-material/HelpRounded';
@@ -21,7 +22,8 @@ interface MenuContentProps {
 const mainListItems = [
   { text: 'Home', icon: <HomeRoundedIcon /> },
   { text: 'Analytics', icon: <AnalyticsRoundedIcon /> },
-  { text: 'Tasks', icon: <AssignmentRoundedIcon /> },
+  { text: 'Test Tasks', icon: <AssignmentRoundedIcon /> },
+  { text: 'Repair Tasks', icon: <AssignmentLateRoundedIcon /> },
 ];
 
 // const secondaryListItems = [
@@ -35,8 +37,8 @@ export default function MenuContent({ selectedMenuItem, setSelectedMenuItem }: M
     <Stack sx={{ flexGrow: 1, p: 1, justifyContent: 'space-between' }}>
       <List dense>
         {mainListItems.map((item, index) => (
-          <ListItem key={index} disablePadding sx={{ display: 'block' }}>
-            <ListItemButton selected={selectedMenuItem === item.text} onClick={() => setSelectedMenuItem(item.text)}>
+          <ListItem key={index} disablePadding sx={{ display: 'block' }} >
+            <ListItemButton sx={{ my: '0.5rem' }} selected={selectedMenuItem === item.text} onClick={() => setSelectedMenuItem(item.text)}>
               <ListItemIcon sx={{ '&&': {fontSize: '1.15rem'} }}>{item.icon}</ListItemIcon>
               <ListItemText
                 primary={item.text}

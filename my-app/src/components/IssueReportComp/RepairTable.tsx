@@ -15,23 +15,9 @@ import {
     Stack
 } from '@mui/material';
 import Grid from '@mui/material/Grid2';
-
-const techLabels = ['Comp', 'PCB', 'Wire', 'Batt'] as const;
-type TechLabel = typeof techLabels[number];
-const techFields = ['PW', 'SP', 'MF', 'MRR', 'MRL', 'LEDR', 'LEDL', 'UR', 'LR', 'ANG'] as const;
-type TechField = typeof techFields[number];
-type TechState = Record<TechLabel, Record<TechField, boolean>>;
-
-interface L2Cause {
-  MF: Record<'Rotor' | 'Stator' | 'Bearing' | 'Gearbox', boolean>;
-  MRR: Record<'Rotor' | 'Stator' | 'Bearing', boolean>;
-  MRL: Record<'Rotor' | 'Stator' | 'Bearing', boolean>;
-  PCB: { waterDamage: boolean; PW_X1_U5: boolean; PW_J3: boolean; M_X3_U14: boolean; ANG_U6: boolean };
-}
-interface CauseState {
-  L1: Record<TechLabel, boolean>;
-  L2: L2Cause;
-}
+import { techLabels, techFields } from './../../dataDef/IssueReport/ReportDataType';
+import { TechLabel, TechField, TechState } from './../../dataDef/IssueReport/ReportDataType';
+import { L2Cause, CauseState } from './../../dataDef/IssueReport/ReportDataType';
 
 export default function RepairReportTable() {
     const [tech, setTech] = React.useState<TechState>(() =>
@@ -72,14 +58,14 @@ export default function RepairReportTable() {
                 <Table size="small">
                     <TableHead>
                         <TableRow>
-                        <TableCell>
-                            <strong>Issue / Component</strong>
-                        </TableCell>
-                        {techFields.map((f) => (
-                            <TableCell key={f} align="center">
-                            <strong>{f}</strong>
+                            <TableCell>
+                                <strong>Issue / Component</strong>
                             </TableCell>
-                        ))}
+                            {techFields.map((f) => (
+                                <TableCell key={f} align="center">
+                                <strong>{f}</strong>
+                                </TableCell>
+                            ))}
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -89,13 +75,14 @@ export default function RepairReportTable() {
                                 {techFields.map((f) => (
                                     <TableCell key={f} align="center">
                                         <Checkbox
-                                        checked={tech[row][f]}
-                                        onChange={() =>
-                                            setTech((t) => ({
-                                            ...t,
-                                            [row]: { ...t[row], [f]: !t[row][f] },
-                                            }))
-                                        }
+                                            checked={tech[row][f]}
+                                            onChange={() =>
+                                                setTech((t) => ({
+                                                ...t,
+                                                [row]: { ...t[row], [f]: !t[row][f] },
+                                                }))
+                                            }
+                                            sx={{ m: 0.5 }}
                                         />
                                     </TableCell>
                                 ))}
@@ -139,10 +126,11 @@ export default function RepairReportTable() {
                                                         },
                                                     }))
                                                 }
+                                                sx={{ m: 0.5 }}
                                             />
                                         }
                                         label={opt}
-                                        sx={{ mr: 2 }}
+                                        sx={{ '&&': { ml: 1, mr: 3 } }}
                                     />
                                 ))}
                             </Stack>

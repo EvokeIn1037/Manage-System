@@ -1,15 +1,15 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import ReportTable from './../IssueReportComp/ReportTable';
+import ReportTable from '../IssueReportComp/ReportTable';
 
-interface TaskGridProps {
+interface RepairGridProps {
   admin: boolean;
   report: boolean;
   usr: string;
 }
 
-export default function TaskGrid({ admin, report, usr }: TaskGridProps) {
+export default function RepairGrid({ admin, report, usr }: RepairGridProps) {
   if (admin != true && report != true){
     return (
       <>
@@ -22,7 +22,7 @@ export default function TaskGrid({ admin, report, usr }: TaskGridProps) {
           }}
       >
           <Typography component="h2" variant="h4" sx={{ my: 4 }}>
-              👋 Welcome to the task section {usr}!
+              👋 Welcome to the repairing task section {usr}!
           </Typography>
       </Box>
       </>
@@ -41,7 +41,7 @@ export default function TaskGrid({ admin, report, usr }: TaskGridProps) {
           }}
       >
           <Typography component="h2" variant="h4" sx={{ my: 4 }}>
-              👋 Welcome to the task section administration {usr}!
+              👋 Welcome to the repairing task section administration {usr}!
           </Typography>
       </Box>
       </>
@@ -50,7 +50,7 @@ export default function TaskGrid({ admin, report, usr }: TaskGridProps) {
 
   return (
     <>
-      <ReportTable usr={usr} />
+      <ReportTable usr={usr} repairT={true} />
     </>
   );
 }
