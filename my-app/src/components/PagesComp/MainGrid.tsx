@@ -2,7 +2,8 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import AnalyticsGrid from './../PageGrids/AnalyticsGrid';
 import HomeGrid from './../PageGrids/HomeGrid';
-import TaskGrid from './../PageGrids/TaskGrid';
+import TestGrid from './../PageGrids/TestGrid';
+import RepairGrid from '../PageGrids/RepairGrid';
 import Copyright from './../CompanyComp/Copyright';
 
 interface MainGridProps {
@@ -23,8 +24,11 @@ export default function MainGrid({ apiurl, selectedMenuItem, admin, report, usr,
       {selectedMenuItem === "Analytics" && (
         <AnalyticsGrid apiurl={apiurl} todayDate={todayDate} />
       )}
-      {selectedMenuItem === "Tasks" && (
-        <TaskGrid admin={admin} report={report} usr={usr} />
+      {selectedMenuItem === "Test Tasks" && (
+        <TestGrid admin={admin} report={report} usr={usr} />
+      )}
+      {selectedMenuItem === "Repair Tasks" && (
+        <RepairGrid admin={admin} report={report} usr={usr} />
       )}
       <Copyright sx={{ my: 4 }} />
     </Box>

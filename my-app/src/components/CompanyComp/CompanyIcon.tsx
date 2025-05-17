@@ -4,6 +4,6 @@ import BettaIco from './../../assets/betta.ico'
 
 export function BettabotIcon() {
   return (
-    <Avatar src={BettaIco} sx={{ height: 21, width: 100 }}> </Avatar>
+    <Avatar src={BettaIco} sx={{ height: 40, width: 40 }}> </Avatar>
   );
 }
