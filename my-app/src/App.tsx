@@ -8,8 +8,8 @@ import ApiTest from "./pages/ApiTest"
 
 const App: React.FC = () => {
   // const BACKPUB = "http://localhost:9067/";
-  // const BACKPUB = "http://10.23.103.80:9067/"; // test on Mac
-  const BACKPUB = "http://192.168.0.43:9067/" // test on Linux
+  const BACKPUB = "http://192.168.87.20:9067/"; // test on Mac
+  // const BACKPUB = "http://192.168.0.43:9067/" // test on Linux
   const APIURL = BACKPUB + "api";
   return (
     <Router>
